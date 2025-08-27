@@ -1,0 +1,35 @@
+# Development override for Docker Compose
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      target: builder  # Use builder stage for development
+    environment:
+      NODE_ENV: development
+      TYPEORM_LOGGING: true
+      DEBUG_ENABLED: true
+    volumes:
+      # Mount source code for hot reloading
+      - ./backend/src:/app/src:ro
+      - ./backend/package.json:/app/package.json:ro  
+      - ./backend/tsconfig.json:/app/tsconfig.json:ro
+      # Preserve node_modules in container
+      - /app/node_modules
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5000:5000"
+      - "9229:9229"  # Debug port
+
+  postgres:
+    environment:
+      # More verbose logging in development
+      POSTGRES_LOG_STATEMENT: all
+    ports:
+      - "5432:5432"
+
+# Enable development tools by default
+profiles:
+  - dev

@@ -1,0 +1,171 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: datacenter_postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: datacenter
+      POSTGRES_USER: datacenter
+      POSTGRES_PASSWORD: password123
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/migrations/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    networks:
+      - datacenter_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datacenter -d datacenter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Backend API Service
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: datacenter_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      
+      # Database Configuration
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: datacenter
+      DB_PASSWORD: password123
+      DB_NAME: datacenter
+      
+      # JWT Configuration
+      JWT_SECRET: datacenter-monitoring-super-secret-jwt-key-change-in-production
+      JWT_EXPIRES_IN: 24h
+      
+      # CORS Configuration
+      CORS_ORIGIN: http://localhost:3000
+      
+      # Rate Limiting
+      RATE_LIMIT_WINDOW_MS: 900000
+      RATE_LIMIT_MAX_REQUESTS: 100
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # Mount logs directory for debugging in development
+      - ./backend/logs:/app/logs
+    networks:
+      - datacenter_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5000/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development Backend Service (alternative for development)
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: builder
+    container_name: datacenter_backend_dev
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      
+      # Database Configuration
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: datacenter
+      DB_PASSWORD: password123
+      DB_NAME: datacenter
+      
+      # JWT Configuration  
+      JWT_SECRET: dev-secret-key
+      JWT_EXPIRES_IN: 7d
+      
+      # CORS Configuration
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # Mount source code for hot reloading in development
+      - ./backend/src:/app/src:ro
+      - ./backend/package.json:/app/package.json:ro
+      - ./backend/tsconfig.json:/app/tsconfig.json:ro
+      - /app/node_modules
+    networks:
+      - datacenter_network
+    command: ["npm", "run", "dev"]
+    profiles:
+      - dev
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: datacenter_pgadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@datacenter.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - datacenter_network
+    profiles:
+      - tools
+    depends_on:
+      - postgres
+
+  # Redis for caching (optional, for future use)
+  redis:
+    image: redis:7-alpine
+    container_name: datacenter_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - datacenter_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    profiles:
+      - cache
+
+# Named volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# Custom network for service communication
+networks:
+  datacenter_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
