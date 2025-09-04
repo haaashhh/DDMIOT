@@ -250,15 +250,11 @@ export class DashboardService {
           .where('alert.status = :status', { status: AlertStatus.ACTIVE })
           .groupBy('alert.alert_type')
           .getRawMany(),
-        this.alertRepository.count({
-          where: {
-            status: AlertStatus.RESOLVED,
-            resolved_at: AppDataSource.getRepository(Alert)
-              .createQueryBuilder()
-              .where('resolved_at >= :today', { today })
-              .getQuery(),
-          },
-        }),
+        this.alertRepository
+          .createQueryBuilder('alert')
+          .where('alert.status = :status', { status: AlertStatus.RESOLVED })
+          .andWhere('alert.resolved_at >= :today', { today })
+          .getCount(),
       ]);
 
     const typeCounts = {

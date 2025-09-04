@@ -280,7 +280,7 @@ export class AlertService {
         const existingAlert = await this.alertRepository.findOne({
           where: {
             server_id: serverId,
-            category: condition.category,
+            category: condition.category as AlertCategory,
             title: condition.title,
             status: In([AlertStatus.ACTIVE, AlertStatus.ACKNOWLEDGED]),
           },
@@ -292,8 +292,8 @@ export class AlertService {
       }
 
       const alert = await this.createAlert({
-        alert_type: condition.type,
-        category: condition.category,
+        alert_type: condition.type as AlertType,
+        category: condition.category as AlertCategory,
         title: condition.title,
         description: condition.description,
         server_id: serverId,

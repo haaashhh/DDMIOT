@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  body {
+    @apply bg-gray-50 font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .sidebar-nav-item {
+    @apply flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200;
+  }
+  
+  .sidebar-nav-item:hover {
+    @apply bg-gray-100 text-gray-900;
+  }
+  
+  .sidebar-nav-item.active {
+    @apply bg-primary-50 text-primary-700 border-r-2 border-primary-500;
+  }
+  
+  .metric-card {
+    @apply bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .status-indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .status-indicator.active {
+    @apply bg-green-100 text-green-800;
+  }
+  
+  .status-indicator.maintenance {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .status-indicator.error {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .status-indicator.offline {
+    @apply bg-gray-100 text-gray-800;
+  }
+}

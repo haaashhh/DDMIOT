@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from '../config/database';
 import { Rack } from '../entities/Rack';
 import { Server } from '../entities/Server';
-import { MetricsService } from './MetricsService';
+import { MetricsService, ServerMetrics } from './MetricsService';
 
 export class RackService {
   private rackRepository: Repository<Rack>;
@@ -113,7 +113,7 @@ export class RackService {
     await this.rackRepository.remove(rack);
   }
 
-  async getRackMetrics(id: string) {
+  async getRackMetrics(id: string): Promise<any> {
     const rack = await this.getRackWithServers(id);
     
     if (!rack) {

@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from '../config/database';
 import { Server, ServerStatus } from '../entities/Server';
 import { Rack } from '../entities/Rack';
-import { MetricsService } from './MetricsService';
+import { MetricsService, ServerMetrics } from './MetricsService';
 
 export class ServerService {
   private serverRepository: Repository<Server>;
@@ -114,7 +114,7 @@ export class ServerService {
     await this.updateRackServerCount(rackId);
   }
 
-  async getServerMetrics(id: string, hours: number = 24) {
+  async getServerMetrics(id: string, hours: number = 24): Promise<ServerMetrics | ServerMetrics[]> {
     const server = await this.getServerById(id);
     
     if (!server) {
@@ -223,7 +223,8 @@ export class ServerService {
       throw new Error(`Server with ID ${id} not found`);
     }
 
-    const metrics = await this.getServerMetrics(id, 1);
+    const metricsData = await this.getServerMetrics(id, 1);
+    const metrics = Array.isArray(metricsData) ? metricsData[0] : metricsData;
     const alertConditions = MetricsService.simulateAlertConditions(metrics);
     
     let healthScore = 100;

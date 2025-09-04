@@ -71,6 +71,6 @@ export const generateToken = (payload: { id: string; email: string }): string =>
   return jwt.sign(
     payload,
     process.env.JWT_SECRET || 'your-secret-key',
-    { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+    { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } as jwt.SignOptions
   );
 };

@@ -1,4 +1,4 @@
-interface ServerMetrics {
+export interface ServerMetrics {
   cpu_usage: number;
   memory_usage: number;
   disk_usage: number;

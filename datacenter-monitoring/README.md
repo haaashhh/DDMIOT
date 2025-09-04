@@ -1,4 +1,4 @@
-# 🏢 Datacenter Monitoring System - Phase 1: Backend Core
+# 🏢 Système de Surveillance de Centre de Données - Phase 1: Backend
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.1+-blue.svg)
@@ -6,40 +6,40 @@
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-A comprehensive **backend monitoring system** for datacenter infrastructure management, built with Node.js, TypeScript, PostgreSQL, and Docker. This Phase 1 implementation provides a solid REST API foundation for monitoring racks, servers, alerts, and network devices.
+Un **système de surveillance backend complet** pour la gestion d'infrastructure de centre de données, construit avec Node.js, TypeScript, PostgreSQL et Docker. Cette implémentation de Phase 1 fournit une base API REST solide pour surveiller les racks, serveurs, alertes et équipements réseau.
 
-## 📋 Table of Contents
+## 📋 Table des Matières
 
-- [🚀 Features](#-features)
+- [🚀 Fonctionnalités](#-fonctionnalités)
 - [🏗️ Architecture](#️-architecture)
-- [📊 Data Models](#-data-models)
+- [📊 Modèles de Données](#-modèles-de-données)
 - [🔧 Installation](#-installation)
-- [🐳 Docker Setup](#-docker-setup)
-- [📡 API Documentation](#-api-documentation)
-- [🌱 Database Seeding](#-database-seeding)
-- [🧪 Testing](#-testing)
-- [📈 Monitoring](#-monitoring)
-- [🔒 Security](#-security)
-- [🤝 Contributing](#-contributing)
+- [🐳 Configuration Docker](#-configuration-docker)
+- [📡 Documentation API](#-documentation-api)
+- [🌱 Données d'Initialisation](#-données-dinitialisation)
+- [🧪 Tests](#-tests)
+- [📈 Surveillance](#-surveillance)
+- [🔒 Sécurité](#-sécurité)
+- [🤝 Contribution](#-contribution)
 
-## 🚀 Features
+## 🚀 Fonctionnalités
 
-### Core Infrastructure Monitoring
-- ✅ **Server Management**: Complete CRUD operations for datacenter servers
-- ✅ **Rack Organization**: Manage datacenter racks with capacity tracking
-- ✅ **Alert System**: Comprehensive alerting with multiple severity levels
-- ✅ **Network Devices**: Track switches, routers, and firewalls
-- ✅ **Real-time Metrics**: Simulated server metrics (CPU, memory, temperature, power)
-- ✅ **Dashboard APIs**: Overview, capacity, and alert dashboard endpoints
+### Surveillance d'Infrastructure de Base
+- ✅ **Gestion des Serveurs**: Opérations CRUD complètes pour les serveurs du centre de données
+- ✅ **Organisation des Racks**: Gestion des racks avec suivi de capacité
+- ✅ **Système d'Alertes**: Alertes complètes avec plusieurs niveaux de sévérité
+- ✅ **Équipements Réseau**: Suivi des commutateurs, routeurs et pare-feux
+- ✅ **Métriques Temps Réel**: Métriques serveur simulées (CPU, mémoire, température, puissance)
+- ✅ **APIs Tableau de Bord**: Points d'accès pour vue d'ensemble, capacité et alertes
 
-### Technical Features
-- ✅ **TypeORM Integration**: Type-safe database operations
-- ✅ **PostgreSQL Database**: Robust relational database with proper indexing
-- ✅ **Docker Support**: Complete containerization with multi-stage builds
-- ✅ **Rate Limiting**: API protection against abuse
-- ✅ **Input Validation**: Comprehensive request validation
-- ✅ **Error Handling**: Structured error responses
-- ✅ **Health Checks**: Application and database health monitoring
+### Fonctionnalités Techniques
+- ✅ **Intégration TypeORM**: Opérations de base de données type-safe
+- ✅ **Base de Données PostgreSQL**: Base de données relationnelle robuste avec indexation appropriée
+- ✅ **Support Docker**: Conteneurisation complète avec builds multi-étapes
+- ✅ **Limitation de Taux**: Protection API contre les abus
+- ✅ **Validation d'Entrée**: Validation complète des requêtes
+- ✅ **Gestion d'Erreurs**: Réponses d'erreur structurées
+- ✅ **Vérifications de Santé**: Surveillance de l'application et de la base de données
 
 ## 🏗️ Architecture
 
@@ -47,40 +47,40 @@ A comprehensive **backend monitoring system** for datacenter infrastructure mana
 datacenter-monitoring/
 ├── backend/
 │   ├── src/
-│   │   ├── entities/          # TypeORM entities (Rack, Server, Alert, NetworkDevice)
-│   │   ├── controllers/       # API request handlers
-│   │   ├── services/          # Business logic layer
-│   │   ├── routes/            # Express.js routing
-│   │   ├── middleware/        # Authentication, validation, error handling
-│   │   ├── migrations/        # Database schema migrations  
-│   │   ├── seeds/             # Sample data for development
-│   │   ├── config/            # Database and app configuration
-│   │   └── app.ts             # Express application entry point
-│   ├── Dockerfile             # Multi-stage Docker build
+│   │   ├── entities/          # Entités TypeORM (Rack, Server, Alert, NetworkDevice)
+│   │   ├── controllers/       # Gestionnaires de requêtes API
+│   │   ├── services/          # Couche de logique métier
+│   │   ├── routes/            # Routage Express.js
+│   │   ├── middleware/        # Authentification, validation, gestion d'erreurs
+│   │   ├── migrations/        # Migrations de schéma de base de données  
+│   │   ├── seeds/             # Données d'exemple pour le développement
+│   │   ├── config/            # Configuration de base de données et d'application
+│   │   └── app.ts             # Point d'entrée de l'application Express
+│   ├── Dockerfile             # Build Docker multi-étapes
 │   ├── package.json
 │   └── tsconfig.json
-├── docker-compose.yml         # PostgreSQL + Backend services
-├── docker-compose.dev.yml     # Development overrides
-├── docker-compose.prod.yml    # Production optimizations
+├── docker-compose.yml         # Services PostgreSQL + Backend
+├── .env                       # Variables d'environnement
+├── .gitignore                 # Fichiers ignorés par Git
 └── README.md
 ```
 
-### Technology Stack
+### Stack Technologique
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| **Runtime** | Node.js 18+ | JavaScript runtime |
-| **Language** | TypeScript 5.1+ | Type-safe development |
-| **Framework** | Express.js | Web application framework |
-| **Database** | PostgreSQL 15+ | Primary data storage |
-| **ORM** | TypeORM | Database abstraction layer |
-| **Validation** | class-validator | Request/response validation |
-| **Security** | Helmet, CORS, Rate Limiting | Security middleware |
-| **Containerization** | Docker & Docker Compose | Application deployment |
+| Composant | Technologie | Objectif |
+|-----------|-------------|----------|
+| **Runtime** | Node.js 18+ | Runtime JavaScript |
+| **Langage** | TypeScript 5.1+ | Développement type-safe |
+| **Framework** | Express.js | Framework d'application web |
+| **Base de Données** | PostgreSQL 15+ | Stockage de données principal |
+| **ORM** | TypeORM | Couche d'abstraction de base de données |
+| **Validation** | class-validator | Validation requête/réponse |
+| **Sécurité** | Helmet, CORS, Rate Limiting | Middleware de sécurité |
+| **Conteneurisation** | Docker & Docker Compose | Déploiement d'application |
 
-## 📊 Data Models
+## 📊 Modèles de Données
 
-### Server Entity
+### Entité Server
 ```typescript
 interface Server {
   id: string;                    // Primary key (e.g., "RBT-A1-S001")
@@ -105,7 +105,7 @@ interface Server {
 }
 ```
 
-### Rack Entity
+### Entité Rack
 ```typescript
 interface Rack {
   id: string;                    // Primary key (e.g., "RBT-A1")
@@ -119,7 +119,7 @@ interface Rack {
 }
 ```
 
-### Alert Entity
+### Entité Alert
 ```typescript
 interface Alert {
   id: string;                    // UUID primary key
@@ -136,7 +136,7 @@ interface Alert {
 }
 ```
 
-### NetworkDevice Entity
+### Entité NetworkDevice
 ```typescript
 interface NetworkDevice {
   id: string;                    // Primary key (e.g., "SW-CORE-01")
@@ -155,91 +155,79 @@ interface NetworkDevice {
 
 ## 🔧 Installation
 
-### Prerequisites
+### Prérequis
 - **Node.js 18+**
 - **PostgreSQL 15+** 
-- **npm or yarn**
-- **Docker & Docker Compose** (for containerized deployment)
+- **npm ou yarn**
+- **Docker & Docker Compose** (pour le déploiement conteneurisé)
 
-### Local Development Setup
+### Configuration de Développement Local
 
-1. **Clone the repository**
+1. **Cloner le répertoire**
 ```bash
 git clone <repository-url>
 cd datacenter-monitoring
 ```
 
-2. **Install backend dependencies**
+2. **Installer les dépendances backend**
 ```bash
 cd backend
 npm install
 ```
 
-3. **Setup environment variables**
+3. **Configurer les variables d'environnement**
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
+# Créer le fichier .env avec la configuration appropriée
+cp backend/.env.example backend/.env
+# Éditer .env avec votre configuration
 ```
 
-4. **Start PostgreSQL** (if not using Docker)
+4. **Démarrer PostgreSQL avec Docker**
 ```bash
-# On macOS with Homebrew
-brew services start postgresql
-
-# On Ubuntu/Debian
-sudo systemctl start postgresql
+# Démarrer uniquement la base de données
+docker-compose up postgres -d
 ```
 
-5. **Create database**
+5. **Démarrer le serveur de développement**
 ```bash
-createdb datacenter
-```
-
-6. **Run database migrations and seed data**
-```bash
-npm run migration:run
-npm run seed
-```
-
-7. **Start the development server**
-```bash
+cd backend
 npm run dev
 ```
 
-The API will be available at `http://localhost:5000`
+L'API sera disponible à `http://localhost:5001`
 
-## 🐳 Docker Setup
+## 🐳 Configuration Docker
 
-### Quick Start with Docker Compose
+### Démarrage Rapide avec Docker Compose
 
-1. **Clone and navigate to project**
+1. **Cloner et naviguer vers le projet**
 ```bash
 git clone <repository-url>
 cd datacenter-monitoring
 ```
 
-2. **Start all services**
+2. **Démarrer tous les services**
 ```bash
-# Production mode
+# Mode production
 docker-compose up -d
 
-# Development mode with hot reloading
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# Mode développement avec rechargement à chaud
+docker-compose -f docker-compose.yml --profile dev up -d
 
-# With additional tools (pgAdmin)
+# Avec outils supplémentaires (pgAdmin)
 docker-compose --profile tools up -d
 ```
 
-3. **Seed the database**
+3. **Initialiser la base de données**
 ```bash
-# Wait for services to be healthy, then seed
+# Attendre que les services soient en bonne santé, puis initialiser
 docker-compose exec backend npm run seed
 ```
 
-4. **Access the services**
-- **API**: http://localhost:5000
-- **pgAdmin** (if using tools profile): http://localhost:8080
-- **Database**: localhost:5432
+4. **Accéder aux services**
+- **API**: http://localhost:5001
+- **pgAdmin** (si utilisation du profil tools): http://localhost:8080
+- **Base de Données**: localhost:5433
 
 ### Docker Commands
 
@@ -260,46 +248,46 @@ docker-compose down
 docker-compose down -v
 ```
 
-### Environment Configuration
+### Configuration d'Environnement
 
-Create a `.env` file in the project root:
+Créer un fichier `.env` dans le répertoire backend :
 
 ```bash
 # Application
-NODE_ENV=production
-PORT=5000
+NODE_ENV=development
+PORT=5001
 
-# Database
-DB_HOST=postgres  # Use 'localhost' for non-Docker setup
-DB_PORT=5432
+# Base de données
+DB_HOST=localhost  # Utiliser 'postgres' pour une configuration Docker
+DB_PORT=5433
 DB_USER=datacenter
 DB_PASSWORD=password123
 DB_NAME=datacenter
 
-# Security
+# Sécurité
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
 JWT_EXPIRES_IN=24h
 CORS_ORIGIN=http://localhost:3000
 
-# Rate Limiting
+# Limitation de taux
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX_REQUESTS=100
 ```
 
-## 📡 API Documentation
+## 📡 Documentation API
 
-### Base URL
-- **Development**: `http://localhost:5000/api/v1`
+### URL de Base
+- **Développement**: `http://localhost:5001/api/v1`
 - **Production**: `https://your-domain.com/api/v1`
 
-### Authentication
-Most endpoints support optional JWT authentication. Include the token in the Authorization header:
+### Authentification
+La plupart des points d'accès supportent l'authentification JWT optionnelle. Inclure le token dans l'en-tête Authorization :
 ```
 Authorization: Bearer <your-jwt-token>
 ```
 
-### Response Format
-All API responses follow this structure:
+### Format de Réponse
+Toutes les réponses API suivent cette structure :
 ```json
 {
   "success": true|false,
@@ -314,20 +302,20 @@ All API responses follow this structure:
 }
 ```
 
-### Server Endpoints
+### Points d'Accès Serveur
 
 #### GET /servers
-List all servers with optional filtering and pagination.
+Lister tous les serveurs avec filtrage et pagination optionnels.
 
-**Query Parameters:**
-- `status` - Filter by status (active, maintenance, error, offline)
-- `rack_id` - Filter by rack ID
-- `limit` - Number of results to return (max 1000)
-- `offset` - Number of results to skip
+**Paramètres de Requête :**
+- `status` - Filtrer par statut (active, maintenance, error, offline)
+- `rack_id` - Filtrer par ID de rack
+- `limit` - Nombre de résultats à retourner (max 1000)
+- `offset` - Nombre de résultats à ignorer
 
-**Example Request:**
+**Exemple de Requête :**
 ```bash
-curl "http://localhost:5000/api/v1/servers?status=active&limit=10"
+curl "http://localhost:5001/api/v1/servers?status=active&limit=10"
 ```
 
 **Example Response:**
@@ -375,19 +363,19 @@ curl "http://localhost:5000/api/v1/servers?status=active&limit=10"
 ```
 
 #### GET /servers/:id
-Get detailed information about a specific server.
+Obtenir des informations détaillées sur un serveur spécifique.
 
-**Example Request:**
+**Exemple de Requête :**
 ```bash
-curl "http://localhost:5000/api/v1/servers/RBT-A1-S001"
+curl "http://localhost:5001/api/v1/servers/RBT-A1-S001"
 ```
 
 #### POST /servers
-Create a new server.
+Créer un nouveau serveur.
 
-**Example Request:**
+**Exemple de Requête :**
 ```bash
-curl -X POST "http://localhost:5000/api/v1/servers" \
+curl -X POST "http://localhost:5001/api/v1/servers" \
   -H "Content-Type: application/json" \
   -d '{
     "id": "RBT-A1-S004",
@@ -409,18 +397,18 @@ curl -X POST "http://localhost:5000/api/v1/servers" \
 ```
 
 #### GET /servers/:id/metrics
-Get real-time or historical metrics for a server.
+Obtenir les métriques temps réel ou historiques pour un serveur.
 
-**Query Parameters:**
-- `hours` - Number of hours of historical data (default: 24, use 1 for real-time)
+**Paramètres de Requête :**
+- `hours` - Nombre d'heures de données historiques (défaut: 24, utiliser 1 pour temps réel)
 
-**Example Request:**
+**Exemple de Requête :**
 ```bash
-# Real-time metrics
-curl "http://localhost:5000/api/v1/servers/RBT-A1-S001/metrics?hours=1"
+# Métriques temps réel
+curl "http://localhost:5001/api/v1/servers/RBT-A1-S001/metrics?hours=1"
 
-# 24-hour historical data
-curl "http://localhost:5000/api/v1/servers/RBT-A1-S001/metrics?hours=24"
+# Données historiques 24h
+curl "http://localhost:5001/api/v1/servers/RBT-A1-S001/metrics?hours=24"
 ```
 
 **Example Response:**
@@ -446,7 +434,7 @@ curl "http://localhost:5000/api/v1/servers/RBT-A1-S001/metrics?hours=24"
 ```
 
 #### GET /servers/:id/health
-Get comprehensive health information for a server including metrics and potential alerts.
+Obtenir des informations de santé complètes pour un serveur incluant métriques et alertes potentielles.
 
 **Example Response:**
 ```json
@@ -470,14 +458,14 @@ Get comprehensive health information for a server including metrics and potentia
 }
 ```
 
-### Rack Endpoints
+### Points d'Accès Rack
 
 #### GET /racks
-List all racks, optionally filtered by zone.
+Lister tous les racks, optionnellement filtrés par zone.
 
-**Example Request:**
+**Exemple de Requête :**
 ```bash
-curl "http://localhost:5000/api/v1/racks?zone=A"
+curl "http://localhost:5001/api/v1/racks?zone=A"
 ```
 
 #### GET /racks/:id/servers  
@@ -683,14 +671,14 @@ Get detailed capacity metrics across the datacenter.
 #### GET /dashboard/alerts
 Get alerts dashboard with trends and breakdowns.
 
-## 🌱 Database Seeding
+## 🌱 Données d'Initialisation
 
-The system includes comprehensive seed data for development and testing:
+Le système inclut des données d'initialisation complètes pour le développement et les tests :
 
-### Running Seeds
+### Exécution des Données d'Initialisation
 
 ```bash
-# Local development
+# Développement local
 npm run seed
 
 # Docker
@@ -726,28 +714,28 @@ docker-compose exec backend npm run seed
 - Hardware failure simulations
 - Maintenance notifications
 
-## 🧪 Testing
+## 🧪 Tests
 
-### API Testing with curl
+### Tests API avec curl
 
-Test the health endpoint:
+Tester le point d'accès de santé :
 ```bash
-curl http://localhost:5000/api/v1/health
+curl http://localhost:5001/api/v1/health
 ```
 
-Test server listing:
+Tester la liste des serveurs :
 ```bash
-curl http://localhost:5000/api/v1/servers
+curl http://localhost:5001/api/v1/servers
 ```
 
-Test metrics:
+Tester les métriques :
 ```bash
-curl "http://localhost:5000/api/v1/servers/RBT-A1-S001/metrics?hours=1"
+curl "http://localhost:5001/api/v1/servers/RBT-A1-S001/metrics?hours=1"
 ```
 
-Test dashboard:
+Tester le tableau de bord :
 ```bash
-curl http://localhost:5000/api/v1/dashboard/overview
+curl http://localhost:5001/api/v1/dashboard/overview
 ```
 
 ### Testing with Postman
@@ -771,19 +759,19 @@ npm run test:coverage
 npm run test:watch
 ```
 
-## 📈 Monitoring
+## 📈 Surveillance
 
-### Health Checks
+### Vérifications de Santé
 
-The API provides built-in health check endpoints:
+L'API fournit des points d'accès de vérification de santé intégrés :
 
-**Application Health:**
+**Santé de l'Application :**
 ```bash
-curl http://localhost:5000/api/v1/health
+curl http://localhost:5001/api/v1/health
 ```
 
-**Database Health:**
-The health endpoint includes database connectivity status.
+**Santé de la Base de Données :**
+Le point d'accès de santé inclut le statut de connectivité de la base de données.
 
 ### Docker Health Checks
 
@@ -824,7 +812,7 @@ This includes:
 - **Grafana**: Metrics visualization
 - Custom dashboards for datacenter monitoring
 
-## 🔒 Security
+## 🔒 Sécurité
 
 ### Authentication & Authorization
 - **JWT Token Support**: Optional authentication for API endpoints
@@ -858,24 +846,24 @@ This includes:
 - [ ] Review CORS origins
 - [ ] Monitor for security updates
 
-## 🚀 Deployment
+## 🚀 Déploiement
 
-### Development Deployment
+### Déploiement de Développement
 ```bash
-# Start development environment
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# Démarrer l'environnement de développement
+docker-compose --profile dev up -d
 
-# View logs
-docker-compose logs -f backend
+# Voir les logs
+docker-compose logs -f backend-dev
 ```
 
-### Production Deployment
+### Déploiement de Production
 ```bash
-# Start production environment  
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# Démarrer l'environnement de production  
+docker-compose up -d
 
-# With monitoring
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml --profile monitoring up -d
+# Avec surveillance
+docker-compose --profile cache up -d
 ```
 
 ### Environment Variables for Production
@@ -907,22 +895,22 @@ server {
 }
 ```
 
-## 📚 Next Steps (Phase 2+)
+## 📚 Étapes Suivantes (Phase 2+)
 
-### Frontend Development
-- React.js dashboard with real-time metrics
-- Interactive rack visualization
-- Alert management interface
-- Mobile-responsive design
+### Développement Frontend
+- Tableau de bord React.js avec métriques temps réel
+- Visualisation interactive des racks
+- Interface de gestion des alertes
+- Design responsive mobile
 
-### Advanced Features  
-- Real hardware integration (SNMP, IPMI)
-- Advanced analytics and reporting
-- Email/Slack notifications
-- User management and roles
-- Audit logging
-- API rate limiting per user
-- WebSocket real-time updates
+### Fonctionnalités Avancées  
+- Intégration matériel réel (SNMP, IPMI)
+- Analyses et rapports avancés
+- Notifications Email/Slack
+- Gestion des utilisateurs et rôles
+- Journalisation d'audit
+- Limitation de taux API par utilisateur
+- Mises à jour temps réel WebSocket
 
 ### Scalability Enhancements
 - Redis caching layer
@@ -938,7 +926,7 @@ server {
 - APM integration
 - Distributed tracing
 
-## 🤝 Contributing
+## 🤝 Contribution
 
 ### Development Setup
 1. Fork the repository
@@ -980,6 +968,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, please open an issue on GitHub or contact the development team.
+Pour le support, veuillez ouvrir une issue sur GitHub ou contacter l'équipe de développement.
 
-**Happy Monitoring! 🏢📊**
+**Bonne Surveillance ! 🏢📊**
