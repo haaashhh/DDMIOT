@@ -1,7 +1,15 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { clsx } from 'clsx';
-import { MetricCardProps } from '../../types';
+
+export interface MetricCardProps {
+  title: string;
+  value: string | number;
+  unit?: string;
+  trend?: 'up' | 'down' | 'stable';
+  icon: React.ReactNode;
+  color: 'success' | 'warning' | 'danger' | 'info';
+}
 
 const TrendIcon: React.FC<{ trend?: 'up' | 'down' | 'stable' }> = ({ trend }) => {
   const iconClass = "w-4 h-4";
@@ -49,37 +57,48 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
   return (
     <div className={clsx(
-      'p-6 rounded-xl border-2 transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1',
+      'p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 hover:scale-[1.02] cursor-pointer backdrop-blur-sm',
       colorClasses[color]
     )}>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex-1">
-          <h3 className="text-sm font-medium text-gray-600 mb-1">
+          <h3 className="text-sm font-semibold text-gray-700 mb-2 uppercase tracking-wide">
             {title}
           </h3>
           <div className="flex items-baseline">
             <p className={clsx(
-              'text-3xl font-bold tracking-tight',
+              'text-4xl font-bold tracking-tight leading-none',
               valueColorClasses[color]
             )}>
               {value}
             </p>
             {unit && (
-              <span className="ml-2 text-lg font-medium text-gray-500">
+              <span className="ml-3 text-xl font-semibold text-gray-600">
                 {unit}
               </span>
             )}
           </div>
         </div>
-        <div className={clsx('text-4xl opacity-80', iconColorClasses[color])}>
+        <div className={clsx(
+          'text-5xl opacity-90 transition-transform duration-300 hover:scale-110',
+          iconColorClasses[color]
+        )}>
           {icon}
         </div>
       </div>
       
       {trend && (
-        <div className="flex items-center text-sm text-gray-600">
-          <TrendIcon trend={trend} />
-          <span className="ml-2">vs dernière heure</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center text-sm font-medium text-gray-600">
+            <TrendIcon trend={trend} />
+            <span className="ml-2">vs dernière heure</span>
+          </div>
+          <div className={clsx(
+            'w-2 h-2 rounded-full animate-pulse',
+            trend === 'up' ? 'bg-green-400' :
+            trend === 'down' ? 'bg-red-400' :
+            'bg-gray-400'
+          )} />
         </div>
       )}
     </div>

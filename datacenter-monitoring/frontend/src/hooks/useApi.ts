@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { LoadingState } from '../types';
+
+interface LoadingState {
+  isLoading: boolean;
+  error?: string;
+}
 
 export function useApi<T>(
   apiCall: () => Promise<T>,

@@ -24,13 +24,17 @@ async function seedDatabase(): Promise<void> {
     const alertRepository = AppDataSource.getRepository(Alert);
     const networkDeviceRepository = AppDataSource.getRepository(NetworkDevice);
 
-    // Clear existing data (in correct order to handle foreign keys)
-    console.log('🧹 Clearing existing data...');
-    await alertRepository.delete({});
-    await serverRepository.delete({});
-    await networkDeviceRepository.delete({});
-    await rackRepository.delete({});
-    console.log('✅ Existing data cleared');
+    // Check if data already exists
+    const existingRacks = await rackRepository.count();
+    const existingServers = await serverRepository.count();
+    
+    if (existingRacks > 0 || existingServers > 0) {
+      console.log(`📊 Database already contains data (${existingRacks} racks, ${existingServers} servers)`);
+      console.log('💡 Skipping seeding to avoid duplicates. To reseed, manually clear the database first.');
+      return;
+    }
+    
+    console.log('📝 Database is empty, proceeding with seeding...');
 
     // Seed Racks first (they are referenced by servers and network devices)
     console.log('🏗️ Seeding racks...');

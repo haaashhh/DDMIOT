@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
+import { Box, Container, Typography, Button, Alert, Fade, Skeleton } from '@mui/material';
 import DashboardMetrics from '../components/dashboard/DashboardMetrics';
 import MetricChart from '../components/ui/MetricChart';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { DashboardMetrics as DashboardMetricsType, MetricPoint } from '../types';
+import { DashboardMetricsType } from '../components/dashboard/DashboardMetrics';
+import { MetricPoint } from '../components/ui/MetricChart';
 import { useApi } from '../hooks/useApi';
 import { apiService } from '../services/api';
 
@@ -58,115 +60,254 @@ const Dashboard: React.FC = () => {
 
   if (loading && !dashboardData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <Box 
+        sx={{ 
+          minHeight: '60vh', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center' 
+        }}
+      >
         <LoadingSpinner size="lg" text="Chargement du tableau de bord..." />
-      </div>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-red-500 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+      <Box 
+        sx={{ 
+          minHeight: '60vh', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          p: 4
+        }}
+      >
+        <Alert 
+          severity="error" 
+          sx={{ maxWidth: 500, width: '100%' }}
+          action={
+            <Button 
+              color="inherit" 
+              size="small" 
+              onClick={handleRefresh}
+              startIcon={<RefreshCw className="w-4 h-4" />}
+            >
+              Réessayer
+            </Button>
+          }
+        >
+          <Typography variant="h6" sx={{ mb: 1 }}>
             Erreur de chargement
-          </h3>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button
-            onClick={handleRefresh}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Réessayer
-          </button>
-        </div>
-      </div>
+          </Typography>
+          <Typography variant="body2">
+            {error}
+          </Typography>
+        </Alert>
+      </Box>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Tableau de Bord
-          </h1>
-          <p className="text-gray-600">
-            Vue d'ensemble de votre infrastructure datacenter
-          </p>
-        </div>
-        
-        <button
-          onClick={handleRefresh}
-          disabled={loading}
-          className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-        >
-          <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-          Actualiser
-        </button>
-      </div>
-
-      {/* Metrics Cards */}
-      {dashboardData && (
-        <DashboardMetrics metrics={dashboardData} loading={loading} />
-      )}
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <MetricChart
-          data={cpuMetrics}
-          title="Utilisation CPU - 24h"
-          color="#3b82f6"
-          unit="%"
-          type="area"
-        />
-        
-        <MetricChart
-          data={temperatureMetrics}
-          title="Température Moyenne - 24h"
-          color="#ef4444"
-          unit="°C"
-          type="line"
-        />
-      </div>
-
-      {/* Recent Activity */}
-      {dashboardData?.recent_activity && dashboardData.recent_activity.length > 0 && (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Activité Récente
-          </h3>
-          <div className="space-y-3">
-            {dashboardData.recent_activity.map((activity, index) => (
-              <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                <div className={`w-2 h-2 mt-2 rounded-full ${
-                  activity.severity === 'high' ? 'bg-red-500' :
-                  activity.severity === 'medium' ? 'bg-yellow-500' :
-                  'bg-green-500'
-                }`} />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-900">{activity.message}</p>
-                  <p className="text-xs text-gray-500">
-                    {new Date(activity.timestamp).toLocaleString('fr-FR')}
-                  </p>
+    <Fade in={true} timeout={600}>
+      <Box sx={{ minHeight: '100vh' }}>
+        <div className="space-y-8">
+          {/* Header Section */}
+          <Box sx={{ 
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            borderRadius: 3,
+            p: 4,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              zIndex: 0
+            }
+          }}>
+            <Box sx={{ position: 'relative', zIndex: 1 }}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <Typography variant="h3" sx={{ 
+                    fontWeight: 700, 
+                    mb: 1,
+                    background: 'linear-gradient(45deg, #ffffff 30%, #f0f4ff 90%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    Tableau de Bord
+                  </Typography>
+                  <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 400 }}>
+                    Vue d'ensemble de votre infrastructure datacenter
+                  </Typography>
                 </div>
+                
+                <Button
+                  onClick={handleRefresh}
+                  disabled={loading}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    color: 'white',
+                    fontWeight: 500,
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 2,
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                    },
+                    '&:disabled': {
+                      opacity: 0.6
+                    }
+                  }}
+                  startIcon={<RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />}
+                >
+                  Actualiser
+                </Button>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </Box>
+          </Box>
 
-      {/* Last Update Info */}
-      <div className="text-center text-sm text-gray-500">
-        Dernière mise à jour: {lastUpdate.toLocaleTimeString('fr-FR')}
-      </div>
-    </div>
+          {/* Metrics Cards */}
+          {dashboardData && (
+            <div className="transform transition-all duration-500">
+              <DashboardMetrics metrics={dashboardData} loading={loading} />
+            </div>
+          )}
+
+          {/* Charts Section */}
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, 
+            gap: 4 
+          }}>
+            <Box sx={{ 
+              background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+              borderRadius: 3,
+              p: 3,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <MetricChart
+                data={cpuMetrics}
+                title="Utilisation CPU - 24h"
+                color="#3b82f6"
+                unit="%"
+                type="area"
+              />
+            </Box>
+            
+            <Box sx={{ 
+              background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+              borderRadius: 3,
+              p: 3,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <MetricChart
+                data={temperatureMetrics}
+                title="Température Moyenne - 24h"
+                color="#ef4444"
+                unit="°C"
+                type="line"
+              />
+            </Box>
+          </Box>
+
+          {/* Recent Activity */}
+          {dashboardData?.recent_activity && dashboardData.recent_activity.length > 0 && (
+            <Box sx={{
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+              borderRadius: 3,
+              p: 4,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <Typography variant="h5" sx={{ 
+                fontWeight: 600, 
+                mb: 3,
+                color: 'text.primary',
+                background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                Activité Récente
+              </Typography>
+              <div className="space-y-3">
+                {dashboardData.recent_activity.map((activity, index) => (
+                  <Fade in={true} timeout={300 + index * 100} key={index}>
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 2,
+                      p: 2.5,
+                      borderRadius: 2,
+                      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                      border: '1px solid rgba(255, 255, 255, 0.6)',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                      }
+                    }}>
+                      <Box sx={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        mt: 1,
+                        backgroundColor: 
+                          activity.severity === 'high' ? 'error.main' :
+                          activity.severity === 'medium' ? 'warning.main' :
+                          'success.main',
+                        boxShadow: `0 0 8px ${
+                          activity.severity === 'high' ? 'rgba(244, 67, 54, 0.4)' :
+                          activity.severity === 'medium' ? 'rgba(255, 152, 0, 0.4)' :
+                          'rgba(76, 175, 80, 0.4)'
+                        }`
+                      }} />
+                      <div className="flex-1">
+                        <Typography variant="body2" sx={{ fontWeight: 500, color: 'text.primary' }}>
+                          {activity.message}
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary', mt: 0.5, display: 'block' }}>
+                          {new Date(activity.timestamp).toLocaleString('fr-FR')}
+                        </Typography>
+                      </div>
+                    </Box>
+                  </Fade>
+                ))}
+              </div>
+            </Box>
+          )}
+
+          {/* Last Update Info */}
+          <Box sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="caption" sx={{ 
+              color: 'text.secondary',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 500
+            }}>
+              Dernière mise à jour: {lastUpdate.toLocaleTimeString('fr-FR')}
+            </Typography>
+          </Box>
+        </div>
+      </Box>
+    </Fade>
   );
 };
 

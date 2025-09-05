@@ -5,10 +5,10 @@ import {
   Alert,
   NetworkDevice,
   ServerMetrics,
-  DashboardMetrics,
   ServerFilters,
   AlertFilters,
 } from '../types';
+import { DashboardMetricsType as DashboardMetrics } from '../components/dashboard/DashboardMetrics';
 
 class ApiService {
   private baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';

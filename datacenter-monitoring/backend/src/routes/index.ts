@@ -3,6 +3,7 @@ import serverRoutes from './servers';
 import rackRoutes from './racks';
 import alertRoutes from './alerts';
 import dashboardRoutes from './dashboard';
+import networkDeviceRoutes from './networkDevices';
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router.use('/servers', serverRoutes);
 router.use('/racks', rackRoutes);
 router.use('/alerts', alertRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/network-devices', networkDeviceRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {
@@ -24,6 +26,7 @@ router.get('/health', (req, res) => {
       racks: '/api/v1/racks',
       alerts: '/api/v1/alerts',
       dashboard: '/api/v1/dashboard',
+      networkDevices: '/api/v1/network-devices',
     },
   });
 });

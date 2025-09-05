@@ -13,7 +13,18 @@ import {
   Bar,
 } from 'recharts';
 import { format } from 'date-fns';
-import { ChartProps, MetricPoint } from '../../types';
+
+export interface MetricPoint {
+  timestamp: string;
+  value: number;
+}
+
+export interface ChartProps {
+  data: MetricPoint[];
+  title: string;
+  color: string;
+  unit: string;
+}
 
 interface MetricChartProps extends ChartProps {
   type?: 'line' | 'area' | 'bar';
