@@ -1,12 +1,13 @@
-# 🏢 Système de Surveillance de Centre de Données - Phase 1: Backend
+# 🏢 Système de Surveillance de Centre de Données
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)
+![React](https://img.shields.io/badge/React-18+-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.1+-blue.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-blue.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-Un **système de surveillance backend complet** pour la gestion d'infrastructure de centre de données, construit avec Node.js, TypeScript, PostgreSQL et Docker. Cette implémentation de Phase 1 fournit une base API REST solide pour surveiller les racks, serveurs, alertes et équipements réseau.
+Un **système de surveillance full-stack complet** pour la gestion d'infrastructure de centre de données, construit avec React, Node.js, TypeScript, PostgreSQL et Docker. Cette solution complète fournit une interface utilisateur moderne et une API REST robuste pour surveiller les racks, serveurs, alertes et équipements réseau.
 
 ## 📋 Table des Matières
 
@@ -14,6 +15,7 @@ Un **système de surveillance backend complet** pour la gestion d'infrastructure
 - [🏗️ Architecture](#️-architecture)
 - [📊 Modèles de Données](#-modèles-de-données)
 - [🔧 Installation](#-installation)
+- [🖥️ Frontend Development](#️-frontend-development)
 - [🐳 Configuration Docker](#-configuration-docker)
 - [📡 Documentation API](#-documentation-api)
 - [🌱 Données d'Initialisation](#-données-dinitialisation)
@@ -24,7 +26,17 @@ Un **système de surveillance backend complet** pour la gestion d'infrastructure
 
 ## 🚀 Fonctionnalités
 
-### Surveillance d'Infrastructure de Base
+### Interface Utilisateur (Frontend)
+- ✅ **Dashboard Interactif**: Vue d'ensemble temps réel avec métriques clés
+- ✅ **Gestion des Serveurs**: Interface complète pour visualiser et gérer les serveurs
+- ✅ **Système d'Alertes**: Interface d'alertes avec filtrage et gestion des statuts
+- ✅ **Vue Réseau**: Monitoring des équipements réseau
+- ✅ **Gestion des Racks**: Organisation visuelle et suivi de capacité
+- ✅ **Design Moderne**: Interface Material UI avec thème personnalisé et animations
+- ✅ **Responsive Design**: Adaptatif mobile, tablette et desktop
+- ✅ **Visualisations Graphiques**: Métriques et tendances en temps réel
+
+### Surveillance d'Infrastructure (Backend)
 - ✅ **Gestion des Serveurs**: Opérations CRUD complètes pour les serveurs du centre de données
 - ✅ **Organisation des Racks**: Gestion des racks avec suivi de capacité
 - ✅ **Système d'Alertes**: Alertes complètes avec plusieurs niveaux de sévérité
@@ -33,9 +45,11 @@ Un **système de surveillance backend complet** pour la gestion d'infrastructure
 - ✅ **APIs Tableau de Bord**: Points d'accès pour vue d'ensemble, capacité et alertes
 
 ### Fonctionnalités Techniques
+- ✅ **Stack React Moderne**: React 18 avec TypeScript et Vite
 - ✅ **Intégration TypeORM**: Opérations de base de données type-safe
 - ✅ **Base de Données PostgreSQL**: Base de données relationnelle robuste avec indexation appropriée
 - ✅ **Support Docker**: Conteneurisation complète avec builds multi-étapes
+- ✅ **Material UI**: Composants UI cohérents avec thème personnalisé
 - ✅ **Limitation de Taux**: Protection API contre les abus
 - ✅ **Validation d'Entrée**: Validation complète des requêtes
 - ✅ **Gestion d'Erreurs**: Réponses d'erreur structurées
@@ -45,6 +59,25 @@ Un **système de surveillance backend complet** pour la gestion d'infrastructure
 
 ```
 datacenter-monitoring/
+├── frontend/
+│   ├── src/
+│   │   ├── components/        # Composants React réutilisables
+│   │   │   ├── dashboard/     # Composants spécifiques au dashboard
+│   │   │   ├── layout/        # Mise en page et navigation
+│   │   │   └── ui/            # Composants UI de base (MetricCard, etc.)
+│   │   ├── pages/             # Pages de l'application (Dashboard, Servers, etc.)
+│   │   ├── theme/             # Configuration du thème Material UI
+│   │   ├── services/          # Services API et utilitaires
+│   │   ├── types/             # Types TypeScript
+│   │   ├── hooks/             # Hooks React personnalisés
+│   │   ├── App.tsx            # Composant racine avec routing
+│   │   └── main.tsx           # Point d'entrée React
+│   ├── public/                # Fichiers statiques
+│   ├── index.html             # Template HTML
+│   ├── package.json           # Dépendances frontend
+│   ├── vite.config.ts         # Configuration Vite
+│   ├── tailwind.config.js     # Configuration Tailwind CSS
+│   └── tsconfig.json          # Configuration TypeScript
 ├── backend/
 │   ├── src/
 │   │   ├── entities/          # Entités TypeORM (Rack, Server, Alert, NetworkDevice)
@@ -59,7 +92,7 @@ datacenter-monitoring/
 │   ├── Dockerfile             # Build Docker multi-étapes
 │   ├── package.json
 │   └── tsconfig.json
-├── docker-compose.yml         # Services PostgreSQL + Backend
+├── docker-compose.yml         # Services PostgreSQL + Backend + Frontend
 ├── .env                       # Variables d'environnement
 ├── .gitignore                 # Fichiers ignorés par Git
 └── README.md
@@ -67,6 +100,18 @@ datacenter-monitoring/
 
 ### Stack Technologique
 
+#### Frontend
+| Composant | Technologie | Objectif |
+|-----------|-------------|----------|
+| **Framework** | React 18 | Interface utilisateur moderne |
+| **Langage** | TypeScript 5.1+ | Développement type-safe |
+| **Build Tool** | Vite | Build rapide et HMR |
+| **UI Framework** | Material UI v5 | Composants UI cohérents |
+| **Styling** | Tailwind CSS + Emotion | Styling utilitaire et CSS-in-JS |
+| **Routing** | React Router v6 | Navigation côté client |
+| **Icons** | Lucide React + MUI Icons | Icônes modernes |
+
+#### Backend
 | Composant | Technologie | Objectif |
 |-----------|-------------|----------|
 | **Runtime** | Node.js 18+ | Runtime JavaScript |
@@ -76,7 +121,12 @@ datacenter-monitoring/
 | **ORM** | TypeORM | Couche d'abstraction de base de données |
 | **Validation** | class-validator | Validation requête/réponse |
 | **Sécurité** | Helmet, CORS, Rate Limiting | Middleware de sécurité |
+
+#### DevOps
+| Composant | Technologie | Objectif |
+|-----------|-------------|----------|
 | **Conteneurisation** | Docker & Docker Compose | Déploiement d'application |
+| **Développement** | Hot Reload (Frontend & Backend) | Expérience de développement optimisée |
 
 ## 📊 Modèles de Données
 
@@ -169,9 +219,14 @@ git clone <repository-url>
 cd datacenter-monitoring
 ```
 
-2. **Installer les dépendances backend**
+2. **Installer les dépendances**
 ```bash
+# Backend
 cd backend
+npm install
+
+# Frontend
+cd ../frontend
 npm install
 ```
 
@@ -188,13 +243,145 @@ cp backend/.env.example backend/.env
 docker-compose up postgres -d
 ```
 
-5. **Démarrer le serveur de développement**
+5. **Démarrer les serveurs de développement**
 ```bash
+# Terminal 1 - Backend API
 cd backend
+npm run dev
+
+# Terminal 2 - Frontend React
+cd frontend  
 npm run dev
 ```
 
-L'API sera disponible à `http://localhost:5001`
+**URLs d'accès :**
+- **Frontend**: http://localhost:5173/
+- **Backend API**: http://localhost:5001/
+
+## 🖥️ Frontend Development
+
+### Structure des Composants
+
+```
+frontend/src/
+├── components/
+│   ├── dashboard/
+│   │   ├── DashboardMetrics.tsx     # Métriques du dashboard
+│   │   ├── RecentActivity.tsx       # Activité récente
+│   │   └── QuickActions.tsx         # Actions rapides
+│   ├── layout/
+│   │   ├── Layout.tsx               # Layout principal
+│   │   ├── Header.tsx               # En-tête de navigation
+│   │   └── Sidebar.tsx              # Barre latérale
+│   └── ui/
+│       ├── MetricCard.tsx           # Cartes de métriques
+│       ├── LoadingSpinner.tsx       # Indicateur de chargement
+│       └── ErrorBoundary.tsx        # Gestion d'erreurs
+├── pages/
+│   ├── Dashboard.tsx                # Page d'accueil
+│   ├── Servers.tsx                  # Gestion des serveurs
+│   ├── Alerts.tsx                   # Gestion des alertes
+│   ├── Network.tsx                  # Équipements réseau
+│   ├── Racks.tsx                    # Gestion des racks
+│   ├── Reports.tsx                  # Rapports
+│   └── Settings.tsx                 # Paramètres
+└── theme/
+    └── theme.ts                     # Configuration MUI
+```
+
+### Système de Thème
+
+Le thème Material UI personnalisé inclut :
+
+```typescript
+// Palette de couleurs personnalisées
+palette: {
+  primary: { main: '#667eea' },      // Bleu-violet principal
+  secondary: { main: '#764ba2' },    // Violet secondaire
+  success: { main: '#4caf50' },      // Vert succès
+  warning: { main: '#ff9800' },      // Orange avertissement
+  error: { main: '#f44336' },        // Rouge erreur
+}
+
+// Composants personnalisés
+components: {
+  MuiButton: {
+    // Boutons avec gradients et animations
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+  },
+  MuiCard: {
+    // Cartes avec bordures arrondies et ombres
+    borderRadius: 16,
+    boxShadow: '0px 4px 20px rgba(0,0,0,0.08)'
+  }
+}
+```
+
+### Composants Clés
+
+#### MetricCard
+Composant réutilisable pour afficher les métriques avec :
+- Support des tendances (up/down/stable)
+- Couleurs thématiques (success/warning/danger/info)
+- Animations de survol
+- Icônes personnalisées
+
+#### DashboardMetrics  
+Vue d'ensemble des métriques principales :
+- Serveurs actifs/total
+- Alertes critiques
+- CPU et température moyens
+- Consommation électrique
+- Utilisation des racks
+
+#### Layout
+Structure de navigation avec :
+- En-tête avec titre et actions
+- Barre latérale avec navigation
+- Zone de contenu principal
+- Design responsive
+
+### Scripts de Développement
+
+```bash
+# Serveur de développement avec HMR
+npm run dev
+
+# Build de production
+npm run build
+
+# Prévisualisation du build
+npm run preview
+
+# Linting avec ESLint
+npm run lint
+
+# Type checking avec TypeScript
+npm run type-check
+```
+
+### Configuration Vite
+
+Le projet utilise Vite pour :
+- **Hot Module Replacement (HMR)** : Rechargement instantané
+- **TypeScript** : Support natif TypeScript
+- **Path aliases** : `@/` pour `src/`
+- **Tree shaking** : Optimisation des bundles
+- **Fast builds** : Compilation ultra-rapide
+
+### Intégration API
+
+Services pour l'intégration backend :
+
+```typescript
+// Services API (à implémenter)
+services/
+├── api.ts           # Configuration axios/fetch
+├── servers.ts       # Endpoints serveurs
+├── alerts.ts        # Endpoints alertes
+├── dashboard.ts     # Endpoints dashboard
+└── auth.ts          # Authentification
+```
 
 ## 🐳 Configuration Docker
 
@@ -225,6 +412,7 @@ docker-compose exec backend npm run seed
 ```
 
 4. **Accéder aux services**
+- **Frontend**: http://localhost:5173
 - **API**: http://localhost:5001
 - **pgAdmin** (si utilisation du profil tools): http://localhost:8080
 - **Base de Données**: localhost:5433
@@ -897,11 +1085,13 @@ server {
 
 ## 📚 Étapes Suivantes (Phase 2+)
 
-### Développement Frontend
-- Tableau de bord React.js avec métriques temps réel
-- Visualisation interactive des racks
-- Interface de gestion des alertes
-- Design responsive mobile
+### Développement Frontend (Complété ✅)
+- ✅ Tableau de bord React avec métriques temps réel
+- ✅ Interface de gestion des serveurs  
+- ✅ Interface de gestion des alertes
+- ✅ Design responsive mobile avec Material UI
+- 🔄 Visualisation interactive des racks (en cours)
+- 🔄 Graphiques et tendances avancées
 
 ### Fonctionnalités Avancées  
 - Intégration matériel réel (SNMP, IPMI)
