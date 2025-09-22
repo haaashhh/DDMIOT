@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { Rack, Server, Alert, NetworkDevice } from '../entities';
+import { Rack, Server, Alert, NetworkDevice, User } from '../entities';
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || 'datacenter',
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities: [Rack, Server, Alert, NetworkDevice],
+  entities: [Rack, Server, Alert, NetworkDevice, User],
   migrations: ['src/migrations/**/*.ts'],
   subscribers: ['src/subscribers/**/*.ts'],
 });

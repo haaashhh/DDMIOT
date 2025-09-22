@@ -9,6 +9,7 @@ import { rackSeeds } from './rackSeeds';
 import { serverSeeds } from './serverSeeds';
 import { networkDeviceSeeds } from './networkDeviceSeeds';
 import { alertSeeds } from './alertSeeds';
+import { seedUsers } from './userSeeds';
 
 async function seedDatabase(): Promise<void> {
   try {
@@ -73,6 +74,9 @@ async function seedDatabase(): Promise<void> {
     await alertRepository.save(alerts);
     console.log(`✅ Seeded ${alerts.length} alerts`);
 
+    // Seed Users for authentication
+    await seedUsers();
+
     // Display summary
     console.log('');
     console.log('📊 Seeding Summary:');
@@ -122,6 +126,7 @@ async function seedDatabase(): Promise<void> {
     console.log('🎉 Database seeding completed successfully!');
     console.log('');
     console.log('📡 You can now test the API endpoints:');
+    console.log('   • POST /api/v1/auth/login');
     console.log('   • GET /api/v1/servers');
     console.log('   • GET /api/v1/racks');
     console.log('   • GET /api/v1/alerts');

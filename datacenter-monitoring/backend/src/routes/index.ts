@@ -4,10 +4,12 @@ import rackRoutes from './racks';
 import alertRoutes from './alerts';
 import dashboardRoutes from './dashboard';
 import networkDeviceRoutes from './networkDevices';
+import authRoutes from './auth';
 
 const router = Router();
 
 // Mount all route modules
+router.use('/auth', authRoutes);
 router.use('/servers', serverRoutes);
 router.use('/racks', rackRoutes);
 router.use('/alerts', alertRoutes);
@@ -22,6 +24,7 @@ router.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     version: '1.0.0',
     endpoints: {
+      auth: '/api/v1/auth',
       servers: '/api/v1/servers',
       racks: '/api/v1/racks',
       alerts: '/api/v1/alerts',
